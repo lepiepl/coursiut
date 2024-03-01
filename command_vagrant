@@ -3,3 +3,4 @@ sudo apt install qemu-kvm libvirt-daemon-system ksmtuned libvirt-clients libxslt
 sudo usermod -aG libvirt $USER
 vagrant plugin install vagrant-libvirt
 sudo apt install cockpit cockpit-machines
+sudo systemctl start cockpit
