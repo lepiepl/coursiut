@@ -1,0 +1,13 @@
+---
+virtual_machine:
+  children:
+    dbserver:
+    webserver:
+dbserver:
+  hosts:
+    host1:
+      description: this is a db server
+
+webserver:
+  hosts:
+    host2:
