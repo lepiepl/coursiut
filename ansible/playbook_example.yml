@@ -1,0 +1,33 @@
+---
+- hosts: webserver
+  vars:
+    tmp_dir: "/tmp"
+  tasks:
+    - name: Affichage d'une variable
+      debug:
+        msg: "Ceci est une variable {{ variable_simple }}"
+
+    - name: Creation des répertoires contenu dans une liste
+      file:
+        name: "{{ tmp_dir }}/{{ item }}"
+        state: "directory"
+        owner: vagrant
+        group: vagrant
+        mode: 0600
+      when: item != "element3"
+      loop: "{{ liste }}"
+      tags: "create_dir"
+
+    - name: Récupération du retour de la commande vagrant ssh-config pour l'host concerné
+      command: "vagrant ssh-config {{ inventory_hostname }}"
+      register: _ssh_config
+      delegate_to: localhost
+    
+    - name: Affichage du retour de la tâche
+      debug:
+        var: _ssh_config 
+
+    - name: Affichage du chemin de la clef privée
+      debug:
+        var: _ssh_config.stdout_lines |  select('match', '^ *IdentityFile .*') | list 
+      when: _ssh_config.rc == 0

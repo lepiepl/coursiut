@@ -1,0 +1,18 @@
+---
+variable_simple: "valeur"
+liste:
+  - "element1"
+  - "element2"
+  - "element3"
+
+variable_hash:
+  - vlan: "prod"
+    ip: "10.0.0.1"
+    netmask: "/24"
+  - vlan: "admin"
+    ip: "172.0.0.1"
+    netmask: "/24"
+
+variable_dict:
+  a_key: "value1"
+  another_key: "value0"
