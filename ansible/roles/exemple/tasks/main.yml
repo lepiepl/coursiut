@@ -1,0 +1,13 @@
+---
+# tasks file for exemple
+- name: tache du role
+  debug:
+    msg: "ceci est un role avec variable {{ exemple_ma_variable }}"
+
+- name: Création d'un fichier
+  file:
+    state: touch
+    name: "/tmp/{{ exemple_ma_variable }}"
+    modification_time: preserve
+    access_time: preserve
+  notify: lancement handler

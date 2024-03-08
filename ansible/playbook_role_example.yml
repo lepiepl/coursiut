@@ -1,0 +1,10 @@
+---
+- hosts: webserver
+  roles:
+    #Premier facon d'appeler un role
+    - exemple
+    #deuxième facon en surchargeant une variable
+    - role: "exemple"
+      vars:
+        exemple_ma_variable: "{{ inventory_hostname }}"
+      tags: "exemple"

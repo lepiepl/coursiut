@@ -1,0 +1,5 @@
+---
+# handlers file for exemple
+- name: lancement handler
+  debug:
+    msg: "ceci est un handler"
