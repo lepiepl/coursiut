@@ -1,0 +1,26 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Récupération du retour de la commande vagrant ssh-config pour l'host concerné
+      command: "vagrant ssh-config {{ inventory_hostname }}"
+      register: _ssh_config
+      connection: local
+    
+    - name: affectation du chemin de la clef privée
+      set_fact:
+        ansible_ssh_private_key_file: "{{ _list_ssh_key | first |  regex_replace('^ *IdentityFile *','') }}" 
+      failed_when: _ssh_config.rc != 0 or _list_ssh_key | length == 0
+      vars:
+        _list_ssh_key:  "{{ _ssh_config.stdout_lines |  select('match', '^ *IdentityFile .*') }}"
+
+    - name: Add host to known host
+      connection: local
+      shell: |
+        ssh-keygen -F {{ inventory_hostname }} || 
+        ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts
+      register: known_hosts_script
+      changed_when: "'found' not in known_hosts_script.stdout"
+
+    - name:
+      ping:  
